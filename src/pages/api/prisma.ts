@@ -1,4 +1,4 @@
-import prisma from "./util";
+import prisma from './util';
 
 export const findOneObject = async (collection: string, query) => {
   try {

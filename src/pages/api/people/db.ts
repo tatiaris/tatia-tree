@@ -179,10 +179,12 @@ export const family = {
     photo: 'https://picsum.photos/200',
     dob: '01/03/2001',
     dod: '',
-    events: [{
-      date: '05/14/2022',
-      title: 'Graduated from Texas A&M University',
-    }],
+    events: [
+      {
+        date: '05/14/2022',
+        title: 'Graduated from Texas A&M University'
+      }
+    ],
     partner: null
   },
   'arihant.tatia': {
@@ -229,4 +231,4 @@ export const family = {
     events: [],
     partner: null
   }
-}
+};

@@ -9,8 +9,7 @@ const fetchCompleteCollection = async (collection: string, setFamilyMatrix, setM
     setFamilyMatrix(collectionData.familyMatrix);
     setMaxGenerationSize(collectionData.maxGenerationSize);
     setTotalGenerations(collectionData.totalGenerations);
-  }
-  else console.log('Could not fetch collection', collection);
+  } else console.log('Could not fetch collection', collection);
 };
 
 const Home = (): React.ReactNode => {
@@ -29,25 +28,25 @@ const Home = (): React.ReactNode => {
     }
   }, [totalGenerations]);
 
-  return (familyLoaded) ? (
+  return familyLoaded ? (
     <div id="family-tree-container">
       {familyMatrix.map((generation, i) => {
         return (
-          <div key={i} id={`generation-${i}`} className='generation'>
+          <div key={i} id={`generation-${i}`} className="generation">
             {generation.map((person, j) => {
-              return (person) ? (
+              return person ? (
                 <div key={j} id={`person-${i}-${j}`} className={`person ${person.gender}`}>
                   <img src={person.photo} alt={person.firstName} />
-                  <div className='info-container'>
+                  <div className="info-container">
                     {capitalize(person.firstName)} {capitalize(person.lastName)}
                   </div>
                 </div>
               ) : (
-                <div key={j} id={`person-${i}-${j}`} className='person empty'></div>
-              )
+                <div key={j} id={`person-${i}-${j}`} className="person empty"></div>
+              );
             })}
           </div>
-        )
+        );
       })}
     </div>
   ) : (

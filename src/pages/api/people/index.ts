@@ -7,9 +7,9 @@ const collectionName = 'people';
 const handler = nextConnect();
 
 const getFamilyMatrix = (family: any) => {
-  let familyMatrix: Array<Array<any>> = [];
-  let generation = 0;
-  let familyStack = [{ person: family['x.tatia'], generation: generation, parentEnd: 0, parentStart: 0 }];
+  const familyMatrix: Array<Array<any>> = [];
+  const generation = 0;
+  const familyStack = [{ person: family['x.tatia'], generation: generation, parentEnd: 0, parentStart: 0 }];
 
   while (familyStack.length) {
     const { person, generation, parentEnd, parentStart } = familyStack.shift();
@@ -35,7 +35,7 @@ const getFamilyMatrix = (family: any) => {
     }
   }
   return familyMatrix;
-}
+};
 
 const getMaxGenerationSize = (familyMatrix) => {
   let maxGenerationSize = 0;
@@ -45,7 +45,7 @@ const getMaxGenerationSize = (familyMatrix) => {
     }
   });
   return maxGenerationSize;
-}
+};
 
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -59,7 +59,6 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
     const errorObj = error as Error;
     res.status(500).json({ success: false, message: errorObj.message, family: {} });
   }
-}
-);
+});
 
 export default handler;
