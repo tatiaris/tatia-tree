@@ -8,7 +8,7 @@ datasource db {
 }
 
 model user {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String @id @default(dbgenerated()) @map("_id") @db.ObjectId
   email    String @unique
   fname    String
   lname    String
@@ -16,12 +16,12 @@ model user {
 }
 
 model auth {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String @id @default(dbgenerated()) @map("_id") @db.ObjectId
   uid      String @unique
   password String
 }
 
 model admin {
-  id  String @id @default(auto()) @map("_id") @db.ObjectId
+  id  String @id @default(dbgenerated()) @map("_id") @db.ObjectId
   uid String @unique
 }
