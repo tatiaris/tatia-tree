@@ -9,7 +9,7 @@ const handler = nextConnect();
 const getFamilyMatrix = (family: any) => {
   const familyMatrix: Array<Array<any>> = [];
   const generation = 0;
-  const familyStack = [{ person: family['x.tatia'], generation: generation, parentEnd: 0, parentStart: 0 }];
+  const familyStack = [{ person: family['jaswant.tatia'], generation: generation, parentEnd: 0, parentStart: 0 }];
 
   while (familyStack.length) {
     const { person, generation, parentEnd, parentStart } = familyStack.shift();
@@ -21,6 +21,9 @@ const getFamilyMatrix = (family: any) => {
         let tempGen = generation;
         while (familyMatrix[tempGen - 1]) {
           familyMatrix[tempGen - 1].splice(parentEnd, 0, null);
+          if (person.partner) {
+            familyMatrix[tempGen - 1].splice(parentEnd, 0, null);
+          }
           tempGen--;
         }
       }
@@ -54,7 +57,7 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
     const familyMatrix = getFamilyMatrix(allPeople);
     const maxGenerationSize = getMaxGenerationSize(familyMatrix);
     const totalGenerations = familyMatrix.length;
-    res.status(200).json({ success: true, familyMatrix, maxGenerationSize, totalGenerations });
+    res.status(200).json({ success: true, familyMatrix, allPeople, maxGenerationSize, totalGenerations });
   } catch (error) {
     const errorObj = error as Error;
     res.status(500).json({ success: false, message: errorObj.message, family: {} });

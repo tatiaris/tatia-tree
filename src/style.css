@@ -337,9 +337,10 @@ a:hover {
 }
 
 .person {
-  overflow: hidden;
+  overflow: visible;
   margin: 25px;
-  border-radius: 10px;
+  border-radius: 5px;
+  position: relative;
 }
 
 .person.male {
@@ -356,11 +357,13 @@ a:hover {
   width: 150px;
   height: 150px;
   object-fit: cover;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .person.empty {
   background-color: transparent;
-  width: 150px;
+  width: 152px;
   border: none;
 }
 
@@ -368,4 +371,49 @@ a:hover {
   padding: 0px 10px;
   padding-bottom: 5px;
   font-size: 14px;
+}
+
+.direct-descendent {
+  position: absolute;
+  height: 50px;
+  width: 2px;
+  background-color: #000;
+  left: 50%;
+  top: -50px;
+}
+
+.married-link {
+  position: absolute;
+  width: 50px;
+  height: 2px;
+  background-color: #000;
+  right: -50px;
+  top: 50%;
+}
+
+.generation-link {
+  position: absolute;
+  height: 140px;
+  width: 2px;
+  background-color: #000;
+  right: -25px;
+  top: 50%;
+}
+
+.child-link {
+  position: absolute;
+  height: 2px;
+  width: 100px;
+  background-color: #000;
+  bottom: -52px;
+  right: -25px;
+}
+
+.sibling-link {
+  position: absolute;
+  height: 2px;
+  background-color: #000;
+  bottom: -52px;
+  width: 104px;
+  left: 175px;
 }
