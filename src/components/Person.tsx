@@ -15,7 +15,7 @@ const getSiblingLinks = (person, familyMatrix, gen, loc) => {
     for (let j = 0; j < familyMatrix[gen].length; j++) {
       if (familyMatrix[gen][j] && familyMatrix[gen][j].parentId === person.id) {
         f++;
-        links.push(<div className="sibling-link" style={{ width: `${104 + (j - loc - 1) * 202}px` }}></div>);
+        links.push(<div className="sibling-link" style={{ width: `${102 + (j - loc - 1) * 200}px` }}></div>);
       }
     }
   }

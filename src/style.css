@@ -354,8 +354,8 @@ a:hover {
 }
 
 .person img {
-  width: 150px;
-  height: 150px;
+  width: 148px;
+  height: 148px;
   object-fit: cover;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -363,7 +363,7 @@ a:hover {
 
 .person.empty {
   background-color: transparent;
-  width: 152px;
+  width: 150px;
   border: none;
 }
 
@@ -375,7 +375,7 @@ a:hover {
 
 .direct-descendent {
   position: absolute;
-  height: 50px;
+  height: 49px;
   width: 2px;
   background-color: #000;
   left: 50%;
@@ -387,16 +387,16 @@ a:hover {
   width: 50px;
   height: 2px;
   background-color: #000;
-  right: -50px;
+  right: -51px;
   top: 50%;
 }
 
 .generation-link {
   position: absolute;
-  height: 140px;
+  height: 139px;
   width: 2px;
   background-color: #000;
-  right: -25px;
+  right: -26px;
   top: 50%;
 }
 
@@ -406,7 +406,7 @@ a:hover {
   width: 100px;
   background-color: #000;
   bottom: -52px;
-  right: -25px;
+  right: -26px;
 }
 
 .sibling-link {
@@ -414,6 +414,6 @@ a:hover {
   height: 2px;
   background-color: #000;
   bottom: -52px;
-  width: 104px;
-  left: 175px;
+  width: 102px;
+  left: 174px;
 }
