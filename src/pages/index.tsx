@@ -67,7 +67,7 @@ const Home = (): React.ReactNode => {
             <img className="icon" src="/icons/gift.svg" alt="" />
             {modalPerson.dob}
           </div>
-          {(modalPerson.dod && modalPerson.dod.length > 0) && (
+          {modalPerson.dod && modalPerson.dod.length > 0 && (
             <div className="info">
               <img width={24} height={24} className="icon" src="/icons/pray.png" alt="" />
               {modalPerson.dod}
