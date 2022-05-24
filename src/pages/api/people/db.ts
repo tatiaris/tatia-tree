@@ -360,7 +360,7 @@ export const family = {
       dob: '10/05/1974',
       dod: '',
       events: [],
-      children: []
+      children: ['parth.tatia']
     }
   },
   'rakesh.tatia': {
@@ -447,7 +447,7 @@ export const family = {
   'reena.kothari': {
     id: 'reena.kothari',
     firstName: 'reena',
-    lastName: 'tatia',
+    lastName: 'kothari',
     parentId: 'dalpat.tatia',
     nickname: 'reena',
     gender: 'female',
@@ -501,7 +501,7 @@ export const family = {
   'surbhi.kumbhat': {
     id: 'surbhi.kumbhat',
     firstName: 'surbhi',
-    lastName: 'tatia',
+    lastName: 'kumbhat',
     parentId: 'dalpat.tatia',
     nickname: 'surbhi',
     gender: 'female',
@@ -514,7 +514,7 @@ export const family = {
       partnerOf: 'surbhi.kumbhat',
       marriage_date: '12/14/1997',
       firstName: 'neeraj',
-      lastName: 'tatia',
+      lastName: 'kumbhat',
       parentId: null,
       nickname: 'neeraj',
       gender: 'male',
@@ -783,7 +783,8 @@ export const family = {
     parentId: 'rakesh.tatia',
     nickname: 'rishu',
     gender: 'male',
-    photo: 'https://monstar-lab.com/global/wp-content/uploads/sites/11/2019/04/male-placeholder-image.jpeg',
+    photo: '/img/rishabh.tatia.jpg',
+    video: '/vid/rishabh.tatia.animated.mp4',
     dob: '01/03/2001',
     dod: '',
     events: [
