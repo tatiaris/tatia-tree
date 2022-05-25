@@ -11,17 +11,97 @@ const fetchCompleteCollection = async (collection: string, setFamilyMatrix, setA
   } else console.log('Could not fetch collection', collection);
 };
 
+const PersonLogo = ({ person, startTransition, transitioning }) => {
+  return transitioning ? (
+    <div className="person-logo">
+      <div className="logo-img-container">
+        <img src={person.photo} alt="" />
+      </div>
+      {person.firstName}
+    </div>
+  ) : (
+    /* eslint-disable */
+    <div className="person-logo" onClick={() => startTransition(person.partnerOf ? person.partnerOf : person.id)}>
+      <div className="logo-img-container">
+        <img src={person.photo} alt="" />
+      </div>
+      {person.firstName}
+    </div>
+  );
+};
+
+const PersonContainer = ({ person, startTransition, transitioning }) => {
+  return (
+    <div className="current-person-container">
+      <div className="direct-descendant">
+        <div className="img-container">
+          <img src={person.photo} alt="" />
+        </div>
+        {person.firstName}
+      </div>
+      {person.partner && (
+        <div className="current-person-partner">
+          <div className="img-container">
+            <img src={person.partner.photo} alt="" />
+          </div>
+          {person.partner.firstName}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Home = (): React.ReactNode => {
   const [allPeople, setAllPeople] = useState<any>({});
   const [familyMatrix, setFamilyMatrix] = useState<Array<Array<any>>>([]);
   const [familyLoaded, setFamilyLoaded] = useState(false);
   const [totalGenerations, setTotalGenerations] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalPerson, setModalPerson] = useState<any>({});
+  const [modalPerson, setModalPerson] = useState<any>(null);
+
+  const [transitioning, setTransitioning] = useState(false);
+  const [transitionTriggered, setTransitionTriggered] = useState(0);
+  const [currentContainer, setCurrentContainer] = useState<boolean>(false);
+
+  const [currentPerson, setCurrentPerson] = useState<any>(null);
+  const [nextPerson, setNextPerson] = useState<any>(null);
+
+  const [currentParent, setCurrentParent] = useState<any>(null);
+  const [nextParent, setNextParent] = useState<any>(null);
+
+  const [currentSiblings, setCurrentSiblings] = useState<any>(null);
+  const [nextSiblings, setNextSiblings] = useState<any>(null);
+
+  const [currentChildren, setCurrentChildren] = useState<any>(null);
+  const [nextChildren, setNextChildren] = useState<any>(null);
 
   const activateModal = (person: any) => {
     setModalPerson(person);
     setModalVisible(true);
+  };
+
+  const startTransition = (personId: string) => {
+    setTransitioning(true);
+    setTransitionTriggered(transitionTriggered + 1);
+    const nextPerson = allPeople[personId];
+    setNextPerson(nextPerson);
+    setNextParent(allPeople[nextPerson.parentId]);
+    const nextChildren = [];
+    if (nextPerson.partner && nextPerson.partner.children.length > 0) {
+      for (const childId of nextPerson.partner.children) {
+        nextChildren.push(allPeople[childId]);
+      }
+    }
+    setNextChildren(nextChildren);
+    const nextSiblings = [];
+    if (nextPerson.parentId && allPeople[nextPerson.parentId].partner.children.length > 1) {
+      for (const siblingId of allPeople[nextPerson.parentId].partner.children) {
+        if (siblingId !== nextPerson.id) {
+          nextSiblings.push(allPeople[siblingId]);
+        }
+      }
+    }
+    setNextSiblings(nextSiblings);
   };
 
   useEffect(() => {
@@ -29,54 +109,161 @@ const Home = (): React.ReactNode => {
   }, []);
 
   useEffect(() => {
-    if (totalGenerations && totalGenerations > 0) {
+    if (allPeople && allPeople['prithvi.tatia']) {
       setFamilyLoaded(true);
+      startTransition('prithvi.tatia');
     }
-  }, [totalGenerations]);
+  }, [allPeople]);
+
+  useEffect(() => {
+    if (transitionTriggered == 1) {
+      const timer = setTimeout(() => {
+        setTransitioning(false);
+        setTransitionTriggered(0);
+        setCurrentContainer(!currentContainer);
+        setCurrentParent(nextParent);
+        setCurrentPerson(nextPerson);
+        setCurrentChildren(nextChildren);
+        setCurrentSiblings(nextSiblings);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [transitionTriggered]);
 
   return familyLoaded ? (
-    <div id="family-tree-container">
-      {familyMatrix.map((generation, i) => {
-        return (
-          <div key={i} id={`generation-${i}`} className="generation">
-            {generation.map((person, j) => (
-              <Person key={j} person={person} familyMatrix={familyMatrix} activateModal={activateModal} i={i} j={j} />
-            ))}
-          </div>
-        );
-      })}
-      <div id="modal" className={modalVisible ? 'visible' : 'hidden'}>
-        <button className="close" onClick={() => setModalVisible(false)}>
-          <img src="/icons/x.svg" alt="" />
-        </button>
-        <div className="photo-container">
-          <img className="photo" src={modalPerson.photo} alt={modalPerson.firstName} />
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path
-              fill="#fff"
-              fillOpacity="1"
-              d="M0,32L60,64C120,96,240,160,360,176C480,192,600,160,720,138.7C840,117,960,107,1080,106.7C1200,107,1320,117,1380,122.7L1440,128L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
-            />
-          </svg>
-        </div>
-        <div className="info-container">
-          <div className="name">
-            {capitalize(modalPerson.firstName)} {capitalize(modalPerson.lastName)}
-          </div>
-          <div className="info">
-            <img className="icon" src="/icons/gift.svg" alt="" />
-            {modalPerson.dob}
-          </div>
-          {modalPerson.dod && modalPerson.dod.length > 0 && (
-            <div className="info">
-              <img width={24} height={24} className="icon" src="/icons/pray.png" alt="" />
-              {modalPerson.dod}
-            </div>
+    <div id="family-guide-container">
+      <div className="parents-wrapper">
+        <div id="par-con-0" className={`parents-container ${transitioning ? `transitioning ${currentContainer ? 'in' : 'out'}` : `${!currentContainer ? 'show' : 'hide'}`}`}>
+          {currentContainer && nextParent ? (
+            <>
+              <PersonLogo person={nextParent} startTransition={startTransition} transitioning={transitioning} />
+              <PersonLogo person={nextParent.partner} startTransition={startTransition} transitioning={transitioning} />
+            </>
+          ) : (
+            currentParent && (
+              <>
+                <PersonLogo person={currentParent} startTransition={startTransition} transitioning={transitioning} />
+                <PersonLogo person={currentParent.partner} startTransition={startTransition} transitioning={transitioning} />
+              </>
+            )
           )}
-          <div className="info">
-            <img className="icon" src="/icons/smile.svg" alt="" />
-            {capitalize(modalPerson.nickname)}
+        </div>
+        <div id="par-con-1" className={`parents-container ${transitioning ? `transitioning ${!currentContainer ? 'in' : 'out'}` : `${currentContainer ? 'show' : 'hide'}`}`}>
+          {!currentContainer && nextParent ? (
+            <>
+              <PersonLogo person={nextParent} startTransition={startTransition} transitioning={transitioning} />
+              <PersonLogo person={nextParent.partner} startTransition={startTransition} transitioning={transitioning} />
+            </>
+          ) : (
+            currentParent && (
+              <>
+                <PersonLogo person={currentParent} startTransition={startTransition} transitioning={transitioning} />
+                <PersonLogo person={currentParent.partner} startTransition={startTransition} transitioning={transitioning} />
+              </>
+            )
+          )}
+        </div>
+      </div>
+      <div className="generation-wrapper">
+        <div className="person-wrapper">
+          <div id="per-con-0" className={`person-container ${transitioning ? `transitioning ${currentContainer ? 'in' : 'out'}` : `${!currentContainer ? 'show' : 'hide'}`}`}>
+            {currentContainer && nextPerson ? (
+              <>
+                <PersonContainer person={nextPerson} startTransition={startTransition} transitioning={transitioning} />
+              </>
+            ) : (
+              currentPerson && (
+                <>
+                  <PersonContainer person={currentPerson} startTransition={startTransition} transitioning={transitioning} />
+                </>
+              )
+            )}
           </div>
+          <div id="per-con-1" className={`person-container ${transitioning ? `transitioning ${!currentContainer ? 'in' : 'out'}` : `${currentContainer ? 'show' : 'hide'}`}`}>
+            {!currentContainer && nextParent ? (
+              <>
+                <PersonContainer person={nextPerson} startTransition={startTransition} transitioning={transitioning} />
+              </>
+            ) : (
+              currentPerson && (
+                <>
+                  <PersonContainer person={currentPerson} startTransition={startTransition} transitioning={transitioning} />
+                </>
+              )
+            )}
+          </div>
+        </div>
+        <div className="siblings-wrapper">
+          <div id="sib-con-0" className={`siblings-container ${transitioning ? `transitioning ${currentContainer ? 'in' : 'out'}` : `${!currentContainer ? 'show' : 'hide'}`}`}>
+            {currentContainer && nextSiblings ? (
+              <>
+                {nextSiblings.map((sib: any, i: number) => (
+                  <PersonLogo key={i} person={sib} startTransition={startTransition} transitioning={transitioning} />
+                ))}
+              </>
+            ) : (
+              currentSiblings && (
+                <>
+                  {currentSiblings.map((sib: any, i: number) => (
+                    <PersonLogo key={i} person={sib} startTransition={startTransition} transitioning={transitioning} />
+                  ))}
+                </>
+              )
+            )}
+          </div>
+          <div id="sib-con-1" className={`siblings-container ${transitioning ? `transitioning ${!currentContainer ? 'in' : 'out'}` : `${currentContainer ? 'show' : 'hide'}`}`}>
+            {!currentContainer && nextChildren ? (
+              <>
+                {nextSiblings.map((sib: any, i: number) => (
+                  <PersonLogo key={i} person={sib} startTransition={startTransition} transitioning={transitioning} />
+                ))}
+              </>
+            ) : (
+              currentSiblings && (
+                <>
+                  {currentSiblings.map((sib: any, i: number) => (
+                    <PersonLogo key={i} person={sib} startTransition={startTransition} transitioning={transitioning} />
+                  ))}
+                </>
+              )
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="children-wrapper">
+        <div id="chi-con-0" className={`children-container ${transitioning ? `transitioning ${currentContainer ? 'in' : 'out'}` : `${!currentContainer ? 'show' : 'hide'}`}`}>
+          {currentContainer && nextChildren ? (
+            <>
+              {nextChildren.map((child: any, i: number) => (
+                <PersonLogo key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
+              ))}
+            </>
+          ) : (
+            currentChildren && (
+              <>
+                {currentChildren.map((child: any, i: number) => (
+                  <PersonLogo key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
+                ))}
+              </>
+            )
+          )}
+        </div>
+        <div id="chi-con-1" className={`children-container ${transitioning ? `transitioning ${!currentContainer ? 'in' : 'out'}` : `${currentContainer ? 'show' : 'hide'}`}`}>
+          {!currentContainer && nextChildren ? (
+            <>
+              {nextChildren.map((child: any, i: number) => (
+                <PersonLogo key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
+              ))}
+            </>
+          ) : (
+            currentChildren && (
+              <>
+                {currentChildren.map((child: any, i: number) => (
+                  <PersonLogo key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
+                ))}
+              </>
+            )
+          )}
         </div>
       </div>
     </div>
