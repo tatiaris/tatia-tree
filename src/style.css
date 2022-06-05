@@ -1,5 +1,9 @@
 /* GENERAL SETTINGS START */
 
+* {
+  box-sizing: border-box;
+}
+
 :root {
   --default-font-size: 18px;
   --default-font-family: "Roboto", sans-serif;
@@ -547,14 +551,22 @@ video::-webkit-media-controls {
 .parents-container {
   width: 80%;
   height: 100%;
+  padding: 5%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   gap: 10%;
   position: absolute;
   top: 0px;
   left: 0px;
   transition: 1000ms;
+}
+
+.logo-img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: max-content;
 }
 
 .person-logo img {
@@ -565,23 +577,44 @@ video::-webkit-media-controls {
 
 .hide {
   opacity: 0;
-  top: 20%;
 }
 
 .show {
   opacity: 1;
   top: 0px;
+  left: 0px;
 }
 
 .transitioning.in {
   opacity: 1;
   top: 0px;
+  left: 0px;
+  transition: 1000ms;
 }
-
 .transitioning.out {
   opacity: 0;
+  transition: 1000ms;
+}
+
+.parents-container.transitioning.out {
   top: -20%;
-  transition: 500ms;
+}
+.parents-container.hide {
+  top: 20%;
+}
+
+.siblings-container.transitioning.out {
+  left: 20%;
+}
+.siblings-container.hide {
+  left: -20%;
+}
+
+.children-container.transitioning.out {
+  top: 20%;
+}
+.children-container.hide {
+  top: -20%;
 }
 
 .generation-wrapper {
@@ -592,7 +625,7 @@ video::-webkit-media-controls {
 
 .person-wrapper {
   position: relative;
-  width: 85%;
+  width: 80%;
   height: 100%;
   border: 1px solid #eee;
   overflow: hidden;
@@ -608,7 +641,7 @@ video::-webkit-media-controls {
 
 .siblings-wrapper {
   position: relative;
-  width: 15%;
+  width: 20%;
   height: 100%;
   overflow: hidden;
   border: 1px solid #eee;
@@ -617,11 +650,15 @@ video::-webkit-media-controls {
 .siblings-container {
   width: 100%;
   height: 100%;
+  padding: 5%;
   position: absolute;
   left: 0px;
   transition: 1000ms;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2%;
 }
 
 .children-wrapper {
@@ -634,25 +671,46 @@ video::-webkit-media-controls {
 
 .children-container {
   display: flex;
+  gap: 5%;
   width: 100%;
   height: 100%;
+  padding: 5%;
   position: absolute;
   left: 0px;
   transition: 1000ms;
 }
 
+.children-container .person-logo img {
+  width: 25vw;
+  height: 25vw;
+}
+
+.siblings-container .person-logo img {
+  width: 17vw;
+  height: 17vw;
+}
+
 .current-person-container {
   width: 100%;
   height: 100%;
+  padding: 5%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  gap: 5%;
 }
 
 .current-person-container img {
-  width: 50%;
-  height: 50%;
+  width: 40vw;
+  height: 40vw;
   object-fit: cover;
   border-radius: 50%;
+}
+
+.direct-descendant-container {
+  width: 100%;
+}
+.current-person-partner {
+  width: 100%;
 }
