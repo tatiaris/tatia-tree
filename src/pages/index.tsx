@@ -63,7 +63,6 @@ const ChildLogo = ({ person, startTransition, transitioning }) => {
   );
 };
 
-
 const PersonContainer = ({ person, startTransition, transitioning }) => {
   return (
     <div className="current-person-container">
