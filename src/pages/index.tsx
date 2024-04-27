@@ -63,6 +63,23 @@ const ChildLogo = ({ person, startTransition, transitioning }) => {
   );
 };
 
+const ChildLogoSmall = ({ person, startTransition, transitioning }) => {
+  return transitioning ? (
+    <div className="person-logo-small">
+      <div className="logo-img-container">
+        <img src={person.photo} alt="" />
+      </div>
+    </div>
+  ) : (
+    /* eslint-disable */
+    <div className="person-logo-small" onClick={() => startTransition(person.partnerOf ? person.partnerOf : person.id)}>
+      <div className="logo-img-container">
+        <img src={person.photo} alt="" />
+      </div>
+    </div>
+  );
+};
+
 const PersonContainer = ({ person, startTransition, transitioning }) => {
   return (
     <div className="current-person-container">
@@ -70,9 +87,19 @@ const PersonContainer = ({ person, startTransition, transitioning }) => {
         <div className="logo-img-container">
           <img src={person.photo} alt="" />
         </div>
+        <div className="info-container">
+          {person.firstName}
+          <br />
+          {person.lastName}
+        </div>
       </div>
       {person.partner && (
         <div className="current-person-partner">
+          <div className="info-container">
+            {person.partner.firstName}
+            <br />
+            {person.partner.lastName}
+          </div>
           <div className="logo-img-container">
             <img src={person.partner.photo} alt="" />
           </div>
@@ -163,7 +190,7 @@ const Home = (): React.ReactNode => {
 
   return familyLoaded ? (
     <div id="family-guide-container">
-      <div className="parents-wrapper">
+      <div className={`parents-wrapper ${nextParent && `show-label`}`}>
         <div id="par-con-0" className={`parents-container ${transitioning ? `transitioning ${currentContainer ? 'in' : 'out'}` : `${!currentContainer ? 'show' : 'hide'}`}`}>
           {currentContainer ? (
             <>
@@ -224,7 +251,7 @@ const Home = (): React.ReactNode => {
             )}
           </div>
         </div>
-        <div className="siblings-wrapper">
+        <div className={`siblings-wrapper ${nextSiblings.length > 0 && `show-label`}`}>
           <div id="sib-con-0" className={`siblings-container ${transitioning ? `transitioning ${currentContainer ? 'in' : 'out'}` : `${!currentContainer ? `show` : 'hide'}`}`}>
             {currentContainer && nextSiblings ? (
               <>
@@ -261,39 +288,69 @@ const Home = (): React.ReactNode => {
           </div>
         </div>
       </div>
-      <div className="children-wrapper">
-        <div id="chi-con-0" className={`children-container ${transitioning ? `transitioning ${currentContainer ? 'in' : 'out'}` : `${!currentContainer ? `show` : 'hide'}`}`}>
+      <div className={`children-wrapper ${nextChildren.length > 0 && `show-label`}`}>
+        <div id="chi-con-0" className={`children-container ${(currentChildren && currentChildren.length > 3) ? 'wrap' : ''} ${transitioning ? `transitioning ${currentContainer ? 'in' : 'out'}` : `${!currentContainer ? `show` : 'hide'}`}`}>
           {currentContainer && nextChildren ? (
-            <>
-              {nextChildren.map((child: any, i: number) => (
-                <SiblingLogo key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
-              ))}
-            </>
-          ) : (
-            currentChildren && (
+            nextChildren.length > 3 ? (
               <>
-                {currentChildren.map((child: any, i: number) => (
-                  <SiblingLogo key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
+                {nextChildren.map((child: any, i: number) => (
+                  <ChildLogoSmall key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
+                ))}
+              </>
+            ) : (
+              <>
+                {nextChildren.map((child: any, i: number) => (
+                  <ChildLogo key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
                 ))}
               </>
             )
-          )}
-        </div>
-        <div id="chi-con-1" className={`children-container ${transitioning ? `transitioning ${!currentContainer ? 'in' : 'out'}` : `${currentContainer ? `show` : 'hide'}`}`}>
-          {!currentContainer && nextChildren ? (
-            <>
-              {nextChildren.map((child: any, i: number) => (
-                <ChildLogo key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
-              ))}
-            </>
           ) : (
-            currentChildren && (
+            currentChildren &&
+            (currentChildren.length > 3 ? (
+              <>
+                {currentChildren.map((child: any, i: number) => (
+                  <ChildLogoSmall key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
+                ))}
+              </>
+            ) : (
               <>
                 {currentChildren.map((child: any, i: number) => (
                   <ChildLogo key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
                 ))}
               </>
+            ))
+          )}
+        </div>
+        <div id="chi-con-1" className={`children-container ${(currentChildren && currentChildren.length > 3) ? 'wrap' : ''} ${transitioning ? `transitioning ${!currentContainer ? 'in' : 'out'}` : `${currentContainer ? `show` : 'hide'}`}`}>
+          {!currentContainer && nextChildren ? (
+            nextChildren.length > 3 ? (
+              <>
+                {nextChildren.map((child: any, i: number) => (
+                  <ChildLogoSmall key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
+                ))}
+              </>
+            ) : (
+              <>
+                {nextChildren.map((child: any, i: number) => (
+                  <ChildLogo key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
+                ))}
+              </>
             )
+          ) : (
+            currentChildren &&
+            (currentChildren.length > 3 ? (
+              <>
+                {currentChildren.map((child: any, i: number) => (
+                  <ChildLogoSmall key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
+                ))}
+              </>
+            ) : (
+              <>
+                {currentChildren.map((child: any, i: number) => (
+                  <ChildLogo key={i} person={child} startTransition={startTransition} transitioning={transitioning} />
+                ))}
+              </>
+            ))
           )}
         </div>
       </div>

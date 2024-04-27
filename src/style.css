@@ -544,12 +544,19 @@ video::-webkit-media-controls {
   position: relative;
   width: 100%;
   height: 20%;
-  overflow: hidden;
-  border: 1px solid #eee;
+}
+.parents-wrapper.show-label::after {
+  content: 'PARENTS';
+  position: absolute;
+  color: #ccc;
+  font-size: 14px;
+  top: calc(100% - 7px);
+  left: calc(50% - 30px);
+  z-index: 5;
 }
 
 .parents-container {
-  width: 80%;
+  width: 100%;
   height: 100%;
   padding: 5%;
   display: flex;
@@ -627,7 +634,6 @@ video::-webkit-media-controls {
   position: relative;
   width: 80%;
   height: 100%;
-  border: 1px solid #eee;
   overflow: hidden;
 }
 
@@ -643,8 +649,16 @@ video::-webkit-media-controls {
   position: relative;
   width: 20%;
   height: 100%;
-  overflow: hidden;
-  border: 1px solid #eee;
+}
+.siblings-wrapper.show-label::after {
+  content: 'SIBLINGS';
+  position: absolute;
+  color: #ccc;
+  font-size: 14px;
+  transform: rotate(270deg);
+  top: calc(25% - 36px);
+  left: calc(0% - 36px);
+  z-index: 5;
 }
 
 .siblings-container {
@@ -657,16 +671,28 @@ video::-webkit-media-controls {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  overflow: scroll;
   gap: 2%;
+}
+
+.siblings-container img {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
 }
 
 .children-wrapper {
   position: relative;
   width: 100%;
   height: 20%;
-  overflow: hidden;
-  border: 1px solid #eee;
+}
+
+.children-wrapper.show-label::after {
+  content: 'CHILDREN';
+  position: absolute;
+  color: #ccc;
+  font-size: 14px;
+  top: calc(0% - 7px);
+  left: calc(33% - 30px);
+  z-index: 5;
 }
 
 .children-container {
@@ -678,11 +704,25 @@ video::-webkit-media-controls {
   position: absolute;
   left: 0px;
   transition: 1000ms;
+  overflow: scroll;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.children-container.wrap {
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .children-container .person-logo img {
   width: 25vw;
   height: 25vw;
+}
+
+.children-container .person-logo-small img {
+  width: 15vw;
+  height: 15vw;
+  border-radius: 50%;
 }
 
 .siblings-container .person-logo img {
@@ -693,7 +733,7 @@ video::-webkit-media-controls {
 .current-person-container {
   width: 100%;
   height: 100%;
-  padding: 5%;
+  padding: 5vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -702,15 +742,43 @@ video::-webkit-media-controls {
 }
 
 .current-person-container img {
-  width: 40vw;
-  height: 40vw;
+  width: 35vw;
+  height: 35vw;
   object-fit: cover;
   border-radius: 50%;
 }
 
 .direct-descendant-container {
   width: 100%;
+  display: flex;
 }
+.direct-descendant-container .info-container {
+  width: 50%;
+  padding: 0px 5vw;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  text-transform: capitalize;
+  font-size: 20px;
+}
+
 .current-person-partner {
   width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.current-person-partner .info-container {
+  width: 50%;
+  padding: 0px 5vw;
+  text-align: left;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-transform: capitalize;
+  font-size: 20px;
+}
+
+img {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
