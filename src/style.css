@@ -168,6 +168,7 @@ a:hover {
   .left-links-container {
     display: none;
   }
+
   .hamburger-nav {
     display: block;
     margin-left: 10px;
@@ -311,20 +312,24 @@ a:hover {
   .left-links-container {
     display: none;
   }
+
   .hamburger-nav {
     display: block;
     margin-left: 10px;
   }
+
   .item-card {
     display: block;
     width: max-content;
     height: max-content;
   }
+
   .item-card-img-container {
     width: 100%;
     height: 200px;
     position: relative;
   }
+
   .item-card-details-container {
     width: 100%;
   }
@@ -545,6 +550,7 @@ video::-webkit-media-controls {
   width: 100%;
   height: 20%;
 }
+
 .parents-wrapper.show-label::after {
   content: 'PARENTS';
   position: absolute;
@@ -583,36 +589,43 @@ video::-webkit-media-controls {
 }
 
 .hide {
+  transition: 0ms;
   opacity: 0;
 }
 
 .show {
+  transition: 0ms;
   opacity: 1;
-  top: 0px;
-  left: 0px;
+}
+
+.transitioning {
+  transition: 1000ms;
 }
 
 .transitioning.in {
   opacity: 1;
-  top: 0px;
-  left: 0px;
-  transition: 1000ms;
 }
+
 .transitioning.out {
   opacity: 0;
-  transition: 1000ms;
 }
 
 .parents-container.transitioning.out {
   top: -20%;
 }
+
 .parents-container.hide {
   top: 20%;
+}
+
+.parents-container img {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
 .siblings-container.transitioning.out {
   left: 20%;
 }
+
 .siblings-container.hide {
   left: -20%;
 }
@@ -620,6 +633,7 @@ video::-webkit-media-controls {
 .children-container.transitioning.out {
   top: 20%;
 }
+
 .children-container.hide {
   top: -20%;
 }
@@ -645,11 +659,16 @@ video::-webkit-media-controls {
   transition: 1000ms;
 }
 
+.person-container img {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
 .siblings-wrapper {
   position: relative;
   width: 20%;
   height: 100%;
 }
+
 .siblings-wrapper.show-label::after {
   content: 'SIBLINGS';
   position: absolute;
@@ -703,15 +722,21 @@ video::-webkit-media-controls {
   padding: 5%;
   position: absolute;
   left: 0px;
+  top: 0px;
   transition: 1000ms;
   overflow: scroll;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
 }
 
 .children-container.wrap {
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.children-container img {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
 }
 
 .children-container .person-logo img {
@@ -752,6 +777,7 @@ video::-webkit-media-controls {
   width: 100%;
   display: flex;
 }
+
 .direct-descendant-container .info-container {
   width: 50%;
   padding: 0px 5vw;
@@ -768,6 +794,7 @@ video::-webkit-media-controls {
   display: flex;
   justify-content: flex-end;
 }
+
 .current-person-partner .info-container {
   width: 50%;
   padding: 0px 5vw;
@@ -777,8 +804,4 @@ video::-webkit-media-controls {
   align-items: center;
   text-transform: capitalize;
   font-size: 20px;
-}
-
-img {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
