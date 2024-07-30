@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
-import { getAllObjects } from '../prisma';
 import { family } from './db';
 
-const collectionName = 'people';
 const handler = nextConnect();
 
 const getFamilyMatrix = (family: any) => {
@@ -53,7 +51,6 @@ const getMaxGenerationSize = (familyMatrix) => {
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const allPeople = family;
-    // const allPeople = await getAllObjects(collectionName);
     const familyMatrix = getFamilyMatrix(allPeople);
     const maxGenerationSize = getMaxGenerationSize(familyMatrix);
     const totalGenerations = familyMatrix.length;
